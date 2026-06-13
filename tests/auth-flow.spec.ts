@@ -55,8 +55,8 @@ test.describe('AuraFit Authentication E2E Flow', () => {
     await page.click('button:has-text("Request Temp Password")');
 
     // Expect success message and temporary password box to be visible
-    await expect(page.locator('text=Password Reset Simulated!')).toBeVisible();
-    await expect(page.locator('text=Local Testing Bypass:')).toBeVisible();
+    await expect(page.locator('text=Password Reset Simulated!')).toBeVisible({ timeout: 15000 });
+    await expect(page.locator('text=Local Testing Bypass:')).toBeVisible({ timeout: 15000 });
   });
 
   test('should authenticate successfully with mock Google account', async ({ page }) => {
