@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15-alpine
+    container_name: health_fitness_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgrespassword
+      POSTGRES_DB: health_fitness
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: health_fitness_web
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgrespassword@db:5432/health_fitness?schema=public
+      - AUTH_SECRET=9a110b12-4d75-406d-870e-a72a4c62c91e_aura_fit_secret
+      - NEXTAUTH_URL=http://localhost:3000
+      - AUTH_TRUST_HOST=true
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
