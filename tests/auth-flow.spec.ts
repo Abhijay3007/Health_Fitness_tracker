@@ -39,4 +39,42 @@ test.describe('AuraFit Authentication E2E Flow', () => {
     const heading = page.locator('h1');
     await expect(heading).toContainText("Today's Overview");
   });
+
+  test('should simulate password reset successfully', async ({ page }) => {
+    await page.goto('/login');
+
+    // Click on forgot password link
+    await page.click('a:has-text("Forgot password?")');
+
+    // Check we navigated to /forgot-password
+    await page.waitForURL('**/forgot-password');
+    await expect(page.getByRole('heading', { name: 'Reset password' })).toBeVisible();
+
+    // Request password reset for standard user
+    await page.getByPlaceholder('you@example.com').fill('user@tracker.com');
+    await page.click('button:has-text("Request Temp Password")');
+
+    // Expect success message and temporary password box to be visible
+    await expect(page.locator('text=Password Reset Simulated!')).toBeVisible();
+    await expect(page.locator('text=Local Testing Bypass:')).toBeVisible();
+  });
+
+  test('should authenticate successfully with mock Google account', async ({ page }) => {
+    await page.goto('/login');
+
+    // Click on Google Account button
+    await page.click('button:has-text("Google Account")');
+
+    // Expect modal to show
+    await expect(page.getByRole('heading', { name: 'Google Auth Options' })).toBeVisible();
+
+    // Click mock login option
+    await page.click('button:has-text("Use Mock Google Account")');
+
+    // Wait for redirect to dashboard
+    await page.waitForURL('**/dashboard', { timeout: 10000 });
+
+    const heading = page.locator('h1');
+    await expect(heading).toContainText("Today's Overview");
+  });
 });

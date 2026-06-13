@@ -67,3 +67,37 @@ export async function registerUser(formData: {
     return { success: false, error: error.message || 'Registration failed' };
   }
 }
+
+export async function resetPassword(email: string) {
+  try {
+    if (!email) {
+      return { success: false, error: 'Email address is required' };
+    }
+
+    const user = await prisma.user.findUnique({
+      where: { email },
+    });
+
+    if (!user) {
+      return { success: false, error: 'No account found with this email address' };
+    }
+
+    // Generate a temporary reset password for development/local testing
+    const tempPassword = `AuraReset@${Math.floor(1000 + Math.random() * 9000)}`;
+    const saltRounds = 10;
+    const passwordHash = await bcrypt.hash(tempPassword, saltRounds);
+
+    await prisma.user.update({
+      where: { email },
+      data: { passwordHash },
+    });
+
+    return {
+      success: true,
+      message: 'Password reset instructions simulated!',
+      tempPassword,
+    };
+  } catch (error: any) {
+    return { success: false, error: error.message || 'Failed to request password reset' };
+  }
+}

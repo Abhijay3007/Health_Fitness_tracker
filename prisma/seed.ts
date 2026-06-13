@@ -224,9 +224,31 @@ async function main() {
     },
   });
 
+  const googleUser = await prisma.user.upsert({
+    where: { email: 'google@tracker.com' },
+    update: { passwordHash: userPasswordHash },
+    create: {
+      email: 'google@tracker.com',
+      name: 'Google Athlete',
+      passwordHash: userPasswordHash,
+      role: Role.USER,
+      profile: {
+        create: {
+          age: 28,
+          gender: 'Male',
+          height: 175,
+          weight: 75,
+          fitnessLevel: 'Intermediate',
+          activityLevel: 'Active',
+        },
+      },
+    },
+  });
+
   console.log('Test users created:');
   console.log(`- Admin: admin@tracker.com / Admin@123`);
   console.log(`- User: user@tracker.com / User@123`);
+  console.log(`- Google Mock: google@tracker.com / User@123`);
 
   // 5. Create some sample goals, habits, metrics, and logs for the regular user to populate dashboard
   const today = new Date();

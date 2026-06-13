@@ -10,7 +10,7 @@ export default auth((req) => {
 
   const isApiAuthRoute = nextUrl.pathname.startsWith('/api/auth');
   // Allow all static files, public images, icons
-  const isPublicRoute = ['/', '/login', '/register'].includes(nextUrl.pathname) || nextUrl.pathname.startsWith('/_next') || nextUrl.pathname.startsWith('/favicon.ico');
+  const isPublicRoute = ['/', '/login', '/register', '/forgot-password'].includes(nextUrl.pathname) || nextUrl.pathname.startsWith('/_next') || nextUrl.pathname.startsWith('/favicon.ico');
 
   if (isApiAuthRoute) {
     return NextResponse.next();
