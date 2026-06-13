@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # AuraFit: Premium Health & Fitness Tracker
 
 AuraFit is a modern, high-performance, fully responsive, and gamified Health & Fitness Tracker web application designed to help users monitor workouts, nutrition, body metrics, habits, and fitness goals with rich analytics and automated achievements.
@@ -83,3 +84,7 @@ npx playwright install chromium
 # Run the test suite (ensure Next.js app is running on port 3000)
 npx playwright test
 ```
+=======
+# Health_Fitness_tracker
+
+>>>>>>> 4027e0779de204428bc390bf49b4c5869b001d8c
